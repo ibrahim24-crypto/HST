@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres - Emploi du Temps</title>
+    <style>
+        /* Style de base */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Menu latéral caché */
+        .sidebar {
+            width: 250px;
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: -250px; /* Caché par défaut */
+            height: 100%;
+            overflow-y: auto;
+            padding-top: 20px;
+            transition: left 0.3s ease;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: white;
+            padding: 15px 20px;
+            display: block;
+            font-size: 16px;
+        }
+
+        .sidebar a:hover {
+            background-color: #388E3C;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Bouton pour ouvrir/fermer le menu */
+        .menu-btn {
+            font-size: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .menu-btn:hover {
+            background-color: #388E3C;
+        }
+
+        /* Bouton de fermeture du menu */
+        .close-btn {
+            font-size: 30px;
+            color: white;
+            background: none;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            text-align: right;
+        }
+
+        /* Contenu principal */
+        .content {
+            margin-left: 0;
+            padding: 20px;
+            flex: 1;
+            background-color: #f9f9f9;
+            transition: margin-left 0.3s ease;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        details {
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        summary {
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .setting-group {
+            margin-bottom: 15px;
+        }
+
+        .setting-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="color"],
+        input[type="range"],
+        input[type="text"],
+        input[type="time"] {
+            display: block;
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Bouton pour ouvrir le menu -->
+    <button class="menu-btn" onclick="toggleMenu()">Menu</button>
+
+    <!-- Menu latéral -->
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleMenu()">X</button>
+        <h2>Menu</h2>
+        <a href="home.html">Accueil</a>
+        <a href="#" onclick="saveSettings()">Enregistrer</a>
+        <a href="about.html">À propos</a>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="content" id="content">
+        <h1>Paramètres de l'Emploi du Temps</h1>
+
+        <!-- Couleurs des jours -->
+        <details>
+            <summary>Couleurs des jours</summary>
+            <div class="setting-group">
+                <label for="mondayColor">Lundi :</label>
+                <input type="color" id="mondayColor" value="#FF6347">
+            </div>
+            <div class="setting-group">
+                <label for="tuesdayColor">Mardi :</label>
+                <input type="color" id="tuesdayColor" value="#4682B4">
+            </div>
+            <div class="setting-group">
+                <label for="wednesdayColor">Mercredi :</label>
+                <input type="color" id="wednesdayColor" value="#FFD700">
+            </div>
+            <div class="setting-group">
+                <label for="thursdayColor">Jeudi :</label>
+                <input type="color" id="thursdayColor" value="#ADFF2F">
+            </div>
+            <div class="setting-group">
+                <label for="fridayColor">Vendredi :</label>
+                <input type="color" id="fridayColor" value="#FF69B4">
+            </div>
+            <div class="setting-group">
+                <label for="saturdayColor">Samedi :</label>
+                <input type="color" id="saturdayColor" value="#7B68EE">
+            </div>
+            <div class="setting-group">
+                <label for="sundayColor">Dimanche :</label>
+                <input type="color" id="sundayColor" value="#D2691E">
+            </div>
+        </details>
+
+        <!-- Matières -->
+        <details open>
+            <summary>Paramètres des matières</summary>
+            <div class="setting-group">
+                <label for="historyColor">Histoire :</label>
+                <input type="color" id="historyColor" value="#FFD700">
+            </div>
+            <div class="setting-group">
+                <label for="techColor">Technologie :</label>
+                <input type="color" id="techColor" value="#4682B4">
+            </div>
+            <div class="setting-group">
+                <label for="arabicColor">Arabe :</label>
+                <input type="color" id="arabicColor" value="#FF6347">
+            </div>
+            <div class="setting-group">
+                <label for="svtColor">SVT :</label>
+                <input type="color" id="svtColor" value="#ADFF2F">
+            </div>
+            <div class="setting-group">
+                <label for="islamColor">Islamistes :</label>
+                <input type="color" id="islamColor" value="#FF69B4">
+            </div>
+            <div class="setting-group">
+                <label for="frenchColor">Français :</label>
+                <input type="color" id="frenchColor" value="#00CED1">
+            </div>
+            <div class="setting-group">
+                <label for="englishColor">Anglais :</label>
+                <input type="color" id="englishColor" value="#8A2BE2">
+            </div>
+            <div class="setting-group">
+                <label for="mathColor">Maths :</label>
+                <input type="color" id="mathColor" value="#FF8C00">
+            </div>
+            <div class="setting-group">
+                <label for="physicsColor">Physique :</label>
+                <input type="color" id="physicsColor" value="#4682B4">
+            </div>
+        </details>
+
+        <!-- Horaires -->
+        <details>
+            <summary>Horaires et pauses</summary>
+            <div class="setting-group">
+                <label for="startTime">Heure de début :</label>
+                <input type="time" id="startTime" value="08:00">
+            </div>
+            <div class="setting-group">
+                <label for="endTime">Heure de fin :</label>
+                <input type="time" id="endTime" value="18:00">
+            </div>
+            <div class="setting-group">
+                <label for="pauseStart">Heure de début de la pause :</label>
+                <input type="time" id="pauseStart" value="12:00">
+            </div>
+            <div class="setting-group">
+                <label for="pauseEnd">Heure de fin de la pause :</label>
+                <input type="time" id="pauseEnd" value="13:00">
+            </div>
+        </details>
+    </div>
+
+    <script>
+        // Fonction pour ouvrir/fermer le menu
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content');
+            const currentLeft = sidebar.style.left;
+            
+            if (currentLeft === '-250px' || currentLeft === '') {
+                sidebar.style.left = '0';
+                content.style.marginLeft = '70px'; // Décale le contenu à droite pour faire place au menu
+            } else {
+                sidebar.style.left = '-250px';
+                content.style.marginLeft = '0'; // Ramène le contenu à sa position initiale
+            }
+        }
+
+        // Fonction pour sauvegarder les paramètres
+        function saveSettings() {
+            const settings = {
+                days: {
+                    monday: document.getElementById('mondayColor').value,
+                    tuesday: document.getElementById('tuesdayColor').value,
+                    wednesday: document.getElementById('wednesdayColor').value,
+                    thursday: document.getElementById('thursdayColor').value,
+                    friday: document.getElementById('fridayColor').value,
+                    saturday: document.getElementById('saturdayColor').value,
+                    sunday: document.getElementById('sundayColor').value
+                },
+                subjects: {
+                    history: document.getElementById('historyColor').value,
+                    tech: document.getElementById('techColor').value,
+                    arabic: document.getElementById('arabicColor').value,
+                    svt: document.getElementById('svtColor').value,
+                    islam: document.getElementById('islamColor').value,
+                    french: document.getElementById('frenchColor').value,
+                    english: document.getElementById('englishColor').value,
+                    math: document.getElementById('mathColor').value,
+                    physics: document.getElementById('physicsColor').value
+                },
+                schedule: {
+                    startTime: document.getElementById('startTime').value,
+                    endTime: document.getElementById('endTime').value,
+                    pauseStart: document.getElementById('pauseStart').value,
+                    pauseEnd: document.getElementById('pauseEnd').value
+                }
+            };
+
+            // Sauvegarder les paramètres dans le stockage local
+            localStorage.setItem('settings', JSON.stringify(settings));
+            alert("Paramètres sauvegardés !");
+        }
+
+        // Fonction pour charger les paramètres sauvegardés
+        window.onload = function() {
+            const savedSettings = localStorage.getItem('settings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+
+                // Appliquer les couleurs des jours
+                document.getElementById('mondayColor').value = settings.days.monday;
+                document.getElementById('tuesdayColor').value = settings.days.tuesday;
+                document.getElementById('wednesdayColor').value = settings.days.wednesday;
+                document.getElementById('thursdayColor').value = settings.days.thursday;
+                document.getElementById('fridayColor').value = settings.days.friday;
+                document.getElementById('saturdayColor').value = settings.days.saturday;
+                document.getElementById('sundayColor').value = settings.days.sunday;
+
+                // Appliquer les couleurs des matières
+                document.getElementById('historyColor').value = settings.subjects.history;
+                document.getElementById('techColor').value = settings.subjects.tech;
+                document.getElementById('arabicColor').value = settings.subjects.arabic;
+                document.getElementById('svtColor').value = settings.subjects.svt;
+                document.getElementById('islamColor').value = settings.subjects.islam;
+                document.getElementById('frenchColor').value = settings.subjects.french;
+                document.getElementById('englishColor').value = settings.subjects.english;
+                document.getElementById('mathColor').value = settings.subjects.math;
+                document.getElementById('physicsColor').value = settings.subjects.physics;
+
+                // Appliquer les horaires
+                document.getElementById('startTime').value = settings.schedule.startTime;
+                document.getElementById('endTime').value = settings.schedule.endTime;
+                document.getElementById('pauseStart').value = settings.schedule.pauseStart;
+                document.getElementById('pauseEnd').value = settings.schedule.pauseEnd;
+            }
+        }
+    </script>
+</body>
+</html>

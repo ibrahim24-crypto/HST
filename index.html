@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emploi du Temps - Dynamique</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #333;
+        }
+
+        /* Style du bouton pour ouvrir le menu */
+        .menu-btn {
+            font-size: 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .menu-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Style du menu */
+        #menu {
+            position: fixed;
+            left: -70%; /* Menu caché complètement à gauche */
+            top: 0;
+            height: 100%;
+            width: 40%; /* Réduit à 60% de la largeur de l'écran */
+            background-color: #333;
+            color: white;
+            transition: left 0.3s ease; /* Transition pour le déplacement du menu */
+            padding: 20px;
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Quand le menu est ouvert */
+        #menu.open {
+            left: 0; /* Menu totalement visible quand ouvert */
+        }
+
+        /* Bouton de fermeture du menu */
+        .close-btn {
+            font-size: 30px;
+            color: white;
+            text-align: right;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: none; /* Cacher le bouton par défaut */
+        }
+
+        /* Afficher le bouton quand le menu est ouvert */
+        #menu.open .close-btn {
+            display: block;
+        }
+
+        /* Liens dans le menu */
+        #menu a {
+            display: block;
+            color: white;
+            padding: 10px 0;
+            text-decoration: none;
+            font-size: 18px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+
+        /* Style au survol des liens */
+        #menu a:hover {
+            background-color: #575757;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        /* Image de rotation */
+        .rotate-image {
+            width: 50px;
+            height: 50px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .warning {
+            text-align: center;
+            color: red;
+            font-weight: bold;
+            display: none;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            padding: 12px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .button-container button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #4CAF50;
+            text-decoration: none;
+            position:fixed;
+          
+        }
+
+        .break {
+            background-color: #f0f0f0;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Emploi du Temps - Dynamique</h1>
+
+    <!-- Menu -->
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <div id="menu" class="menu">
+        <div class="close-btn" onclick="toggleMenu()">×</div>
+        <a href="setting.html">
+            <img src="https://i.ibb.co/Gxyys4S/settings-657867-1.png" alt="Paramètres" style="width: 30px; height: 30px;"> Paramètres
+        </a>
+        <a href="about.html">
+            <img src="https://i.ibb.co/JHRQWcM/about-10703243.png" alt="À propos" style="width: 30px; height: 30px;"> À propos
+        </a>
+        <a href="index.html">
+            <img src="https://i.ibb.co/p1T1s1d/square-14034317.png" alt="Accueil" style="width: 30px; height: 30px;"> Accueil
+        </a>
+        <a href="versions.html">
+            <img src="https://i.ibb.co/Vm3GpYY/approved-9546519.png" alt="Versions" style="width: 30px; height: 30px;"> Versions
+        </a>
+    </div>
+
+    <!-- Message d'avertissement -->
+    <img class="rotate-image" src="https://i.ibb.co/cXkXKsp/rotate-16622456.png" alt="Rotation Image">
+
+    <div class="warning" id="warningMessage">
+        <p>Veuillez tourner votre appareil en mode paysage pour générer le tableau.</p>
+    </div>
+
+    <!-- Contenu du tableau -->
+    <div class="button-container">
+        <button id="generateButton" onclick="generateTable()">Générer le tableau</button>
+    </div>
+
+    <table id="scheduleTable">
+        <thead>
+            <tr>
+                <th>Jour</th>
+                <th>08h - 09h</th>
+                <th>09h - 10h</th>
+                <th>10h - 11h</th>
+                <th>11h - 12h</th>
+                <th>12h - 13h</th>
+                <th>14h - 15h</th>
+                <th>15h - 16h</th>
+                <th>16h - 17h</th>
+                <th>17h - 18h</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Contenu généré dynamiquement -->
+        </tbody>
+    </table>
+
+    <footer>
+  <p>&copy Himo school tools.</p>
+    </footer>
+
+<script>
+    // Fonction pour afficher/masquer le menu
+    function toggleMenu() {
+        const menu = document.getElementById('menu');
+        menu.classList.toggle('open');
+    }
+
+    // Fermer le menu si l'utilisateur clique à l'extérieur
+    window.addEventListener('click', function(event) {
+        const menu = document.getElementById('menu');
+        const menuBtn = document.querySelector('.menu-btn');
+        
+        if (!menu.contains(event.target) && !menuBtn.contains(event.target)) {
+            menu.classList.remove('open');
+        }
+    });
+
+    // Code pour générer le tableau
+    document.addEventListener('DOMContentLoaded', function() {
+        const days = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+        
+        // Récupérer les paramètres depuis localStorage
+        const settings = JSON.parse(localStorage.getItem('settings')) || {};
+
+        // Définir les matières avec les couleurs et les durées personnalisées
+        const subjects = [
+            { name: "Arabe", min: 10, color: settings.subjects?.arabic || "#FF6347" },
+            { name: "Français", min: 10, color: settings.subjects?.french || "#00CED1" },
+            { name: "Anglais", min: 10, color: settings.subjects?.english || "#8A2BE2" },
+            { name: "Mathématiques", min: 15, color: settings.subjects?.math || "#FF8C00" },
+            { name: "Sciences", min: 10, color: settings.subjects?.svt || "#ADFF2F" },
+            { name: "Histoire", min: 5, color: settings.subjects?.history || "#FFD700" },
+            { name: "Physique", min: 10, color: settings.subjects?.physics || "#FF4500" },
+            { name: "Informatique", min: 10, color: settings.subjects?.it || "#0000FF" },
+            { name: "Chimie", min: 5, color: settings.subjects?.chemistry || "#D2691E" },
+            { name: "Géographie", min: 10, color: settings.subjects?.geography || "#32CD32" }
+        ];
+
+        const dayColors = {
+            Lundi: settings.days?.monday || "#FF6347",
+            Mardi: settings.days?.tuesday || "#4682B4",
+            Mercredi: settings.days?.wednesday || "#FFD700",
+            Jeudi: settings.days?.thursday || "#ADFF2F",
+            Vendredi: settings.days?.friday || "#FF69B4",
+            Samedi: settings.days?.saturday || "#7B68EE",
+            Dimanche: settings.days?.sunday || "#D2691E"
+        };
+
+        function generateTable() {
+            const warningMessage = document.getElementById('warningMessage');
+            // Vérifier si l'appareil est en mode paysage
+            if (window.innerHeight > window.innerWidth) {
+                warningMessage.style.display = "block"; // Afficher le message d'avertissement
+                return; // Ne pas générer le tableau si en portrait
+            } else {
+                warningMessage.style.display = "none"; // Cacher le message si en paysage
+            }
+
+            const tbody = document.querySelector("#scheduleTable tbody");
+            tbody.innerHTML = ""; // Vider le tableau
+
+            const totalSlots = 7 * 9; // 7 jours, 9 créneaux par jour
+            const slots = [];
+            subjects.forEach(subject => {
+                const count = Math.round((subject.min / 100) * totalSlots);
+                for (let i = 0; i < count; i++) {
+                    slots.push(subject.name);
+                }
+            });
+
+            while (slots.length < totalSlots) {
+                slots.push("Révision");
+            }
+
+            slots.sort(() => Math.random() - 0.5); // Mélanger les créneaux
+
+            let slotIndex = 0;
+            days.forEach((day, index) => {
+                const row = document.createElement("tr");
+                const dayCell = document.createElement("td");
+                dayCell.textContent = day;
+                row.appendChild(dayCell);
+
+                // Appliquer la couleur du jour
+                row.style.backgroundColor = dayColors[day];
+
+                for (let i = 0; i < 9; i++) {
+                    const cell = document.createElement("td");
+                    const slot = slots[slotIndex++];
+                    const subject = subjects.find(sub => sub.name === slot);
+                    
+                    if (slot === "Révision") {
+                        cell.classList.add("break");
+                    } else {
+                        // Appliquer la couleur de la matière
+                        cell.style.backgroundColor = subject?.color || "#FFFFFF";
+                    }
+
+                    cell.textContent = slot;
+                    row.appendChild(cell);
+                }
+
+                tbody.appendChild(row);
+            });
+
+            alert("Tableau généré !");
+            saveVersion(tbody.innerHTML);
+        }
+
+        function saveVersion(tableContent) {
+            const versions = JSON.parse(localStorage.getItem('versions')) || [];
+            const newVersion = {
+                timestamp: new Date().toLocaleString(),
+                content: tableContent
+            };
+            versions.push(newVersion);
+            localStorage.setItem('versions', JSON.stringify(versions));
+        }
+
+        document.querySelector('#generateButton').addEventListener('click', generateTable);
+    });
+</script>
+</body>
+</html>
